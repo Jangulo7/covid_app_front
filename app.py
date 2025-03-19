@@ -61,5 +61,4 @@ with col3:
 
 # --- Render-specific: Server configuration ---
 port = int(os.environ.get("PORT", 8501))
-if __name__ == "__main__":
-    st.set_option('server.address', '0.0.0.0')
+
