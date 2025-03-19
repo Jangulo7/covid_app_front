@@ -1,122 +1,42 @@
 import streamlit as st
 from PIL import Image
-<<<<<<< HEAD
-import numpy as np
-import tensorflow as tf
-from datetime import datetime
-
-# Configuración de la página
-st.set_page_config(page_title="DetCOVID App", page_icon="🩺", layout="centered")
-
-# Cache para cargar el modelo solo una vez
-@st.cache_resource
-def load_model():
-    model = tf.keras.models.load_model('models/ensemble_unified_model3b.keras')
-    return model
-
-# Cargar el modelo
-model = load_model()
-
-# Definir clases
-class_names = ["HEALTHY", "COVID-19", "PNEUMONIA"]
-
-# Función de preprocesamiento de la imagen
-def preprocess_image(image: Image.Image):
-    image = image.resize((224, 224))
-    image = np.array(image, dtype=np.float32) / 255.0
-    image = np.expand_dims(image, axis=0)
-    return image
-
-# Función para obtener predicciones
-def predict_image(image: np.ndarray):
-    predictions = model.predict(image)[0]
-    class_index = np.argmax(predictions)
-    confidence = np.max(predictions) * 100
-    predicted_class = class_names[class_index]
-    return predicted_class, confidence
-
-# --- Sección Hero ---
-hero_image = "https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?fit=crop&w=1200&q=80"
-st.image(hero_image, use_container_width=True)
-=======
 import requests
-from io import BytesIO
 from datetime import datetime
+import os
+
+# Limpiar cache de datos
+st.cache_data.clear()
 
 # Configuración de página
-st.set_page_config(page_title="DetCOVID App", page_icon="🩺", layout="centered")
+st.set_page_config(page_title="DetCOVID App v2", page_icon="🩺", layout="centered")
 
-# --- Sección Hero ---
+# --- Hero ---
 hero_image = "https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?fit=crop&w=1200&q=80"
 st.image(hero_image, use_column_width=True)
->>>>>>> 4a51dc1 (Frontend Streamlit updated)
-st.markdown("<h1 style='text-align: center;'>Tecnología predictiva para mejorar tu salud</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center;'>Predictive Technology for Health Improvement</h1>", unsafe_allow_html=True)
 st.markdown("---")
 
-# --- Sección Cuerpo ---
-st.markdown("## App para Detección de COVID-19")
+# --- Cuerpo ---
+st.markdown("## COVID-19 Detection App v2")
 
-st.markdown(
-    """
-    ¡Bienvenido a **DetCOVID App**! 
-    
-    Para utilizar la aplicación solo debes subir una radiografía pulmonar y obtendrás una predicción rápida sobre la posible presencia de COVID-19.
-
-    ⚠️ *Esta herramienta no reemplaza el diagnóstico médico profesional y es solo para fines educativos y exploratorios.*
-
-    **Instrucciones:**
-    - Haz clic en **"Cargar imagen"** y selecciona tu radiografía.
-    - Luego pulsa en **"Ver resultado"** para conocer la clasificación.
-
-    ¿Te gustó la app? ¡Déjame tu feedback más abajo!
-    """
-)
-
-uploaded_image = st.file_uploader("📁 Cargar imagen", type=["png", "jpg", "jpeg"])
+uploaded_image = st.file_uploader("📁 Upload chest X-ray", type=["png", "jpg", "jpeg"])
 
 if uploaded_image is not None:
-<<<<<<< HEAD
     image = Image.open(uploaded_image).convert("RGB")
-    st.image(image, caption="Radiografía cargada", use_container_width=True)
+    st.image(image, caption="Uploaded X-ray", use_column_width=True)
 
-    if st.button("Ver resultado"):
-        with st.spinner("Analizando la imagen..."):
-            processed_image = preprocess_image(image)
-            clasificacion, confianza = predict_image(processed_image)
+    if st.button("Predict Result"):
+        with st.spinner("Analyzing the image..."):
+            url_backend = "https://covid-backend-x534.onrender.com"
+            files = {"file": uploaded_image.getvalue()}
+            response = requests.post(url_backend, files=files)
 
-        st.success(f"**Clasificación de la radiografía:** {clasificacion}")
-        st.info(f"**Confianza:** {confianza:.2f}%")
-
-# Sección para comentarios
-st.markdown("### 💬 Feedback")
-feedback_nombre = st.text_input("Tu nombre:")
-feedback_comentario = st.text_area("Escribe tu comentario aquí:")
-
-if st.button("Enviar comentario"):
-    if feedback_nombre and feedback_comentario:
-        st.write("¡Gracias por tu feedback! 💖")
-        # Aquí puedes guardar el feedback en un archivo o base de datos
-    else:
-        st.warning("Por favor, completa todos los campos para enviar tu feedback.")
-=======
-    image = Image.open(uploaded_image)
-    st.image(image, caption="Radiografía cargada", use_column_width=True)
-
-    if st.button("Ver resultado"):
-        # Llama al backend
-        backend_url = "https://covid-backend-x534.onrender.com/predict"
-        files = {"file": uploaded_image.getvalue()}
-        response = requests.post(backend_url, files=files)
-
-        if response.status_code == 200:
-            result = response.json()
-            st.success(f"**Clasificación de la radiografía:** {result['classification']}")
-            st.info(f"**Confianza:** {result['confidence']}")
-        else:
-            st.error("Error al comunicarse con el servidor. Verifica que el backend esté activo.")
-
-
->>>>>>> 4a51dc1 (Frontend Streamlit updated)
+            if response.status_code == 200:
+                result = response.json()
+                st.success(f"**Classification:** {result['classification']}")
+                st.info(f"**Confidence:** {result['confidence']}")
+            else:
+                st.error("Error fetching prediction from the backend.")
 
 # --- Footer ---
 st.markdown("---")
@@ -128,31 +48,19 @@ with col1:
 
 with col2:
     st.markdown(
-<<<<<<< HEAD
         f"""
-        **Desarrollado por:** [Johanna](https://www.linkedin.com/in/tuperfil)
-
-        📅 Marzo, {datetime.now().year}
-
-        **Contacto:** [![LinkedIn](https://img.icons8.com/color/48/000000/linkedin.png)](https://www.linkedin.com/in/tuperfil)
+        **Developed by:** [Your Name](https://www.linkedin.com/in/yourprofile)  
+        📅 March, {datetime.now().year}  
+        **Contact:** [![LinkedIn](https://img.icons8.com/color/48/000000/linkedin.png)](https://www.linkedin.com/in/yourprofile)
         """,
-=======
-        """
-        **Desarrollado por:** [Tu Nombre Aquí](https://www.linkedin.com/in/tuperfil)
-
-        📅 Marzo, {año}
-
-        **Contacto:** [![LinkedIn](https://img.icons8.com/color/48/000000/linkedin.png)](https://www.linkedin.com/in/tuperfil)
-        """.format(año=datetime.now().year),
->>>>>>> 4a51dc1 (Frontend Streamlit updated)
         unsafe_allow_html=True
     )
 
 with col3:
     st.write(" ")
-<<<<<<< HEAD
 
-
-# --- Fin de la app ---
-=======
->>>>>>> 4a51dc1 (Frontend Streamlit updated)
+# --- Render-specific: Server configuration ---
+port = int(os.environ.get("PORT", 8501))
+if __name__ == "__main__":
+    st.set_option('server.port', port)
+    st.set_option('server.address', '0.0.0.0')
