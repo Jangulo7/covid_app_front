@@ -12,7 +12,7 @@ st.set_page_config(page_title="DetCOVID App v2", page_icon="🩺", layout="cente
 
 # --- Hero ---
 hero_image = "https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?fit=crop&w=1200&q=80"
-st.image(hero_image, use_column_width=True)
+st.image(hero_image, use_container_width=True)
 st.markdown("<h1 style='text-align: center;'>Predictive Technology for Health Improvement</h1>", unsafe_allow_html=True)
 st.markdown("---")
 
@@ -23,7 +23,7 @@ uploaded_image = st.file_uploader("📁 Upload chest X-ray", type=["png", "jpg",
 
 if uploaded_image is not None:
     image = Image.open(uploaded_image).convert("RGB")
-    st.image(image, caption="Uploaded X-ray", use_column_width=True)
+    st.image(image, caption="Uploaded X-ray", use_container_width=True)
 
     if st.button("Predict Result"):
         with st.spinner("Analyzing the image..."):
@@ -62,5 +62,5 @@ with col3:
 # --- Render-specific: Server configuration ---
 port = int(os.environ.get("PORT", 8501))
 if __name__ == "__main__":
-    st.set_option('server.port', port)
+    #st.set_option('server.port', port)
     st.set_option('server.address', '0.0.0.0')
