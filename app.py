@@ -27,7 +27,7 @@ if uploaded_image is not None:
 
     if st.button("Predict Result"):
         with st.spinner("Analyzing the image..."):
-            url_backend = "https://covid-backend-x534.onrender.com"
+            url_backend = "url_backend = "https://covid-backend-x534.onrender.com/predict"
             files = {"file": uploaded_image.getvalue()}
             response = requests.post(url_backend, files=files)
 
@@ -49,7 +49,7 @@ with col1:
 with col2:
     st.markdown(
         f"""
-        **Developed by:** Johanna (https://www.linkedin.com/in/yourprofile)  
+        **Developed by:** Johanna(https://www.linkedin.com/in/yourprofile)  
         📅 March, {datetime.now().year}  
         **Contact:** [![LinkedIn](https://img.icons8.com/color/48/000000/linkedin.png)](https://www.linkedin.com/in/yourprofile)
         """,
