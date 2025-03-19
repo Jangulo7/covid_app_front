@@ -4,8 +4,6 @@ import requests
 from datetime import datetime
 import os
 
-# Limpiar cache de datos
-st.cache_data.clear()
 
 # Configuración de página
 st.set_page_config(page_title="DetCOVID App v2", page_icon="🩺", layout="centered")
