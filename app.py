@@ -57,6 +57,4 @@ with col2:
 with col3:
     st.write(" ")
 
-# --- Render-specific: Server configuration ---
-# port = int(os.environ.get("PORT", 8501))
 
