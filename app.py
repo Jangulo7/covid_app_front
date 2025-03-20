@@ -9,17 +9,21 @@ st.set_page_config(page_title="DetCOVID App v2", page_icon="🩺", layout="cente
 # --- Hero ---
 hero_image = "https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?fit=crop&w=1200&q=80"
 st.image(hero_image, use_container_width=True)
-st.markdown("<h1 style='text-align: center;'>Predictive Technology for Health Improvement</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center;'>Tecnología predictiva en beneficio de la salud</h1>", unsafe_allow_html=True)
 st.markdown("---")
 
 # --- Body ---
-st.markdown("## COVID-19 Detection App v2")
+st.markdown("## DetCOVID App")
+st.markdown("TLa aplicación DetCOVID es una aplicación web fácil de usar que utiliza Redes neuronales convolucionales (CNN) avanzadas para clasificar las imágenes de radiografías de tórax en tres categorías distintas: SANO, COVID-19 y NEUMONÍA.")
+st.markdown("También proporciona el porcentaje de confianza para cada predicción, lo que permite a los usuarios comprender qué tan seguro está el modelo sobre la clasificación dada.")
+st.markdown("Cargue una imagen de radiografía de tórax para obtener el resultado de la predicción.")
+st.markdown("---")
 
-uploaded_image = st.file_uploader("📁 Upload chest X-ray", type=["png", "jpg", "jpeg"])
+uploaded_image = st.file_uploader("📁 Cargar radiografía", type=["png", "jpg", "jpeg"])
 
 if uploaded_image is not None:
     image = Image.open(uploaded_image).convert("RGB")
-    st.image(image, caption="Uploaded X-ray", use_container_width=True)
+    st.image(image, caption="Cargue una radiografía", use_container_width=True)
 
     if st.button("Predict Result"):
         with st.spinner("Analyzing the image..."):
@@ -30,10 +34,10 @@ if uploaded_image is not None:
                 response = requests.post(url_backend, files=files, timeout=30)  # Added timeout
                 response.raise_for_status()
                 result = response.json()
-                st.success(f"**Classification:** {result['classification']}")
-                st.info(f"**Confidence:** {result['confidence']}")
+                st.success(f"**Clasificación:** {result['classification']}")
+                st.info(f"**Confianza:** {result['confidence']}")
             except requests.exceptions.RequestException as e:
-                st.error(f"Error communicating with backend: {e}")
+                st.error(f"Error de comunicación con el backend: {e}")
 
 # --- Footer --- (lo de abajo igual)
 
