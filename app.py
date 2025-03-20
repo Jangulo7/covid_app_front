@@ -9,12 +9,12 @@ st.set_page_config(page_title="DetCOVID App v2", page_icon="🩺", layout="cente
 # --- Hero ---
 hero_image = "https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?fit=crop&w=1200&q=80"
 st.image(hero_image, use_container_width=True)
-st.markdown("<h1 style='text-align: center;'>Tecnología predictiva en beneficio de la salud</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center;'>Tecnología de Salud Predictiva</h1>", unsafe_allow_html=True)
 st.markdown("---")
 
 # --- Body ---
 st.markdown("## DetCOVID App")
-st.markdown("TLa aplicación DetCOVID es una aplicación web fácil de usar que utiliza Redes neuronales convolucionales (CNN) avanzadas para clasificar las imágenes de radiografías de tórax en tres categorías distintas: SANO, COVID-19 y NEUMONÍA.")
+st.markdown("La aplicación DetCOVID es una aplicación web fácil de usar que utiliza Redes neuronales convolucionales (CNN) avanzadas para clasificar las imágenes de radiografías de tórax en tres categorías distintas: SANO, COVID-19 y NEUMONÍA.")
 st.markdown("También proporciona el porcentaje de confianza para cada predicción, lo que permite a los usuarios comprender qué tan seguro está el modelo sobre la clasificación dada.")
 st.markdown("Cargue una imagen de radiografía de tórax para obtener el resultado de la predicción.")
 st.markdown("---")
