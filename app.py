@@ -4,8 +4,6 @@ import requests
 from datetime import datetime
 import os
 
-
-# Configuración de página
 st.set_page_config(page_title="DetCOVID App v2", page_icon="🩺", layout="centered")
 
 # --- Hero ---
@@ -14,7 +12,7 @@ st.image(hero_image, use_container_width=True)
 st.markdown("<h1 style='text-align: center;'>Predictive Technology for Health Improvement</h1>", unsafe_allow_html=True)
 st.markdown("---")
 
-# --- Cuerpo ---
+# --- Body ---
 st.markdown("## COVID-19 Detection App v2")
 
 uploaded_image = st.file_uploader("📁 Upload chest X-ray", type=["png", "jpg", "jpeg"])
@@ -26,18 +24,18 @@ if uploaded_image is not None:
     if st.button("Predict Result"):
         with st.spinner("Analyzing the image..."):
             url_backend = "https://covid-backend-x534.onrender.com/predict"
-
             files = {"file": uploaded_image.getvalue()}
-            response = requests.post(url_backend, files=files)
-
-            if response.status_code == 200:
+            try:
+                response = requests.post(url_backend, files=files, timeout=30)  # Added timeout
+                response.raise_for_status()
                 result = response.json()
                 st.success(f"**Classification:** {result['classification']}")
                 st.info(f"**Confidence:** {result['confidence']}")
-            else:
-                st.error("Error fetching prediction from the backend.")
+            except requests.exceptions.RequestException as e:
+                st.error(f"Error communicating with backend: {e}")
 
-# --- Footer ---
+# --- Footer --- (lo de abajo igual)
+
 st.markdown("---")
 col1, col2, col3 = st.columns([1, 3, 1])
 
