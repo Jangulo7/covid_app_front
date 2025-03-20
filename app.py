@@ -24,7 +24,8 @@ if uploaded_image is not None:
     if st.button("Predict Result"):
         with st.spinner("Analyzing the image..."):
             url_backend = "https://covid-backend-x534.onrender.com/predict"
-            files = {"file": uploaded_image.getvalue()}
+            files = {"file": (uploaded_image.name, uploaded_image.read(), uploaded_image.type)}
+
             try:
                 response = requests.post(url_backend, files=files, timeout=30)  # Added timeout
                 response.raise_for_status()
