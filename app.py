@@ -51,7 +51,7 @@ with col1:
 with col2:
     st.markdown(
         f"""
-        **Developed by:** [Johanna](https://www.linkedin.com/in/yourprofile)  
+        **Developed by:** [Johanna](https://www.linkedin.com/in/johannaangulo)  
         📅 March, {datetime.now().year}  
         **Contact:** [![LinkedIn](https://img.icons8.com/color/48/000000/linkedin.png)](https://www.linkedin.com/in/yourprofile)
         """,
